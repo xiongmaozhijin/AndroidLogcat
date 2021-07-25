@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp">
+
+        <CheckBox
+            android:id="@+id/chbScrollBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ScrollToBottom" />
+
+        <Button
+            android:id="@+id/btnLogcat"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#e4e4e4"
+            android:text="Logcat"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#b4b4b4" />
+
+    <LinearLayout
+        android:id="@+id/layoutLogcat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="#e4e4e4"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp">
+
+            <TextView
+                android:id="@+id/txvPhoneMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/temp_phone_model" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/header_item_vertical" />
+
+            <TextView
+                android:id="@+id/txvPackageName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                tools:text="com.xiongmaozhijin.androidlogcat" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/header_item_vertical" />
+
+            <Spinner
+                android:id="@+id/logLevelSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/header_item_vertical" />
+
+            <Button
+                android:id="@+id/btnFilter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="SEARCH" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/header_item_vertical" />
+
+            <CheckBox
+                android:id="@+id/chbRegex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:enabled="false"
+                android:text="@string/txt_regex_label" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#b4b4b4" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e4e4e4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txvHeaderDetail"
+                style="@style/DetailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#b4b4b4" />
+
+        <com.xiongmaozhijin.logcatlibrary.logcat.LogcatRecycleView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</LinearLayout>
