@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
 }
 
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 // JitPack Maven
 apply plugin: 'com.github.dcendents.android-maven'
 // Your Group

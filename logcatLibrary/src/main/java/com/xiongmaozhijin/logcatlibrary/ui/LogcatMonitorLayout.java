@@ -157,6 +157,7 @@ public class LogcatMonitorLayout extends FrameLayout {
     }
 
     private void onSearchFilter() {
+        AndroidLogcatManager.getsInstance().hideMonitor();
         final SearchSettingDialog dialog = new SearchSettingDialog(getContext());
         dialog.setmListener((searchTag, searchContent) -> {
             AndroidLogcatManager.getsInstance().setmLogcatTag(searchTag);
@@ -165,6 +166,7 @@ public class LogcatMonitorLayout extends FrameLayout {
             updateHeaderDetail();
             dialog.dismiss();
         });
+        dialog.setOnDismissListener(dialog1 -> AndroidLogcatManager.getsInstance().showMonitor());
         dialog.show();
     }
 

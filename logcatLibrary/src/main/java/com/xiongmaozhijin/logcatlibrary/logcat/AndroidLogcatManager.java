@@ -147,6 +147,14 @@ public class AndroidLogcatManager {
                 .show();
     }
 
+    public void hideMonitor() {
+        EasyFloat.hide("LogcatMonitor");
+    }
+
+    public void showMonitor() {
+        EasyFloat.show("LogcatMonitor");
+    }
+
     public void addInputStreamAction(IInputStreamAction inputStreamAction) {
         mReadInputStreamListener.add(inputStreamAction);
     }

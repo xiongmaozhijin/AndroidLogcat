@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         AndroidLogcatManager.getsInstance().init(getApplicationContext());
-        AndroidLogcatManager.getsInstance().addInputStreamAction(new LocalStorageIsAction());
         AndroidLogcatManager.getsInstance().showMonitor(this);
         log("Main");
 
