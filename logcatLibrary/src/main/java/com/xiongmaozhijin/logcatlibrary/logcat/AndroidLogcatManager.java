@@ -84,8 +84,9 @@ public class AndroidLogcatManager {
         return createCommand();
     }
 
-    public void setmLogcatTag(String mLogcatTag) {
-        this.mLogcatTag = TextUtils.isEmpty(mLogcatTag) ? "*" : mLogcatTag;
+    public void setmLogcatTag(String logcatTag) {
+        this.mLogcatTag = TextUtils.isEmpty(logcatTag) ? "*" : mLogcatTag;
+
     }
 
     public void setmLogcatLogLevel(String mLogcatLogLevel) {
@@ -153,8 +154,7 @@ public class AndroidLogcatManager {
         layoutParams.gravity = Gravity.START | Gravity.TOP;
 
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;//悬浮框宽度
-        layoutParams.width = activity.getResources().getDisplayMetrics().heightPixels / 4 * 2;//悬浮框长度
-        layoutParams.height = activity.getResources().getDisplayMetrics().heightPixels / 4 * 2;//悬浮框长度
+//        layoutParams.height = activity.getResources().getDisplayMetrics().heightPixels / 4 * 3;//悬浮框长度
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;//悬浮框长度
 
 //        layoutParams.x = windowManager.getDefaultDisplay().getWidth();//初始显示位置

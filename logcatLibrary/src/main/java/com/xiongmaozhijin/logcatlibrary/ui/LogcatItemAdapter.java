@@ -22,6 +22,7 @@ class LogcatItemAdapter extends RecyclerView.Adapter<LogcatItemAdapter.LogcatVie
     private final List<LogcatUiItem> mDataList = Collections.synchronizedList(new ArrayList<>());
     private boolean mIsScrollBottom = false;
     private final RecyclerView recyclerView;
+    private boolean mIsLockData = false;
 
     public LogcatItemAdapter(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
@@ -71,6 +72,8 @@ class LogcatItemAdapter extends RecyclerView.Adapter<LogcatItemAdapter.LogcatVie
     }
 
     public void addItemWithoutNotify(LogcatUiItem item) {
+        if (mIsLockData) return;
+        
         mDataList.add(item);
     }
 
@@ -79,6 +82,8 @@ class LogcatItemAdapter extends RecyclerView.Adapter<LogcatItemAdapter.LogcatVie
     }
 
     public void notifyPro() {
+        if (mIsLockData) return;
+
         notifyDataSetChanged();
         if (mIsScrollBottom) {
             if (getItemCount() > 0) {
@@ -89,6 +94,10 @@ class LogcatItemAdapter extends RecyclerView.Adapter<LogcatItemAdapter.LogcatVie
 
     public void setmIsScrollBottom(boolean mIsScrollBottom) {
         this.mIsScrollBottom = mIsScrollBottom;
+    }
+
+    public void setmIsLockData(boolean mIsLockData) {
+        this.mIsLockData = mIsLockData;
     }
 
     static class LogcatViewHolder extends RecyclerView.ViewHolder {

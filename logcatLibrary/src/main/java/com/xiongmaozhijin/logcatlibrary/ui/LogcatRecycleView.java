@@ -23,7 +23,13 @@ public class LogcatRecycleView extends RecyclerView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        return super.onInterceptTouchEvent(e);
+//        return super.onInterceptTouchEvent(e);
+        return true;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        super.onTouchEvent(e);
+        return true;
+    }
 }

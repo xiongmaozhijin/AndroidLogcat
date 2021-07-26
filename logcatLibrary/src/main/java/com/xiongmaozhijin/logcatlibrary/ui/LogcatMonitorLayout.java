@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -68,6 +69,14 @@ public class LogcatMonitorLayout extends FrameLayout {
 
         CheckBox chbScrollBottom = findViewById(R.id.chbScrollBottom);
         chbScrollBottom.setOnCheckedChangeListener((buttonView, isChecked) -> mLogcatItemAdapter.setmIsScrollBottom(isChecked));
+
+        CheckBox chbLockData = findViewById(R.id.chbLockData);
+        chbLockData.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mLogcatItemAdapter.setmIsLockData(isChecked);
+            if (!isChecked) {
+                updateCommand();
+            }
+        });
 
         btnLogcat = findViewById(R.id.btnLogcat);
         btnLogcat.setOnClickListener(v -> {

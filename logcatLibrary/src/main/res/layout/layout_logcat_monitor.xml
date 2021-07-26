@@ -2,26 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/holo_green_dark"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="38dp">
+        android:layout_height="38dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <CheckBox
             android:id="@+id/chbScrollBottom"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ScrollToBottom" />
+            android:layout_height="match_parent"
+            android:background="@color/purple_500"
+            android:text="↓Bottom"
+            android:textColor="@color/white" />
+
+
+        <CheckBox
+            android:id="@+id/chbLockData"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="3dp"
+            android:background="@color/purple_500"
+            android:text="⊙LockData"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnLogcat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#e4e4e4"
+            android:layout_marginStart="3dp"
+            android:background="@color/purple_500"
             android:text="Logcat"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
 
@@ -42,7 +58,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="#e4e4e4"
+            android:background="@color/purple_200"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="3dp"
@@ -104,9 +120,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/purple_200"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="SEARCH" />
+                android:text="SEARCH"
+                android:textColor="@color/white" />
 
             <View
                 android:layout_width="1dp"
@@ -121,9 +139,11 @@
                 android:id="@+id/chbRegex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/purple_200"
                 android:checked="true"
                 android:enabled="false"
-                android:text="@string/txt_regex_label" />
+                android:text="@string/txt_regex_label"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -135,7 +155,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e4e4e4"
+            android:background="@color/purple_200"
             android:orientation="vertical">
 
             <TextView
@@ -153,9 +173,9 @@
 
         <com.xiongmaozhijin.logcatlibrary.ui.LogcatRecycleView
             android:id="@+id/recyclerView"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/white" />
 
     </LinearLayout>
 
