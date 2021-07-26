@@ -1,4 +1,4 @@
-package com.xiongmaozhijin.logcatlibrary.logcat;
+package com.xiongmaozhijin.logcatlibrary.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -23,12 +23,7 @@ public class LogcatRecycleView extends RecyclerView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        return true;
+        return super.onInterceptTouchEvent(e);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent e) {
-        super.onTouchEvent(e);
-        return true;
-    }
 }

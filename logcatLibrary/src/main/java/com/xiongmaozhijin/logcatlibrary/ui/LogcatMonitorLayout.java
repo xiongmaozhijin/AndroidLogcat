@@ -158,7 +158,7 @@ public class LogcatMonitorLayout extends FrameLayout {
 
     private void onSearchFilter() {
         AndroidLogcatManager.getsInstance().hideMonitor();
-        final SearchSettingDialog dialog = new SearchSettingDialog(getContext());
+        final SearchSettingDialog dialog = new SearchSettingDialog(AndroidLogcatManager.getsInstance().getActivity());
         dialog.setmListener((searchTag, searchContent) -> {
             AndroidLogcatManager.getsInstance().setmLogcatTag(searchTag);
             AndroidLogcatManager.getsInstance().setmLogcatSearchKeyword(searchContent);

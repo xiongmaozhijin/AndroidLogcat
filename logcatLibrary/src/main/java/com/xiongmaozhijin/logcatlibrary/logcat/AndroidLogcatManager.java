@@ -2,14 +2,16 @@ package com.xiongmaozhijin.logcatlibrary.logcat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PixelFormat;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
-import com.lzf.easyfloat.EasyFloat;
-import com.lzf.easyfloat.enums.ShowPattern;
-import com.lzf.easyfloat.enums.SidePattern;
 import com.xiongmaozhijin.logcatlibrary.R;
 
 import java.io.IOException;
@@ -124,35 +126,53 @@ public class AndroidLogcatManager {
         }
     }
 
-    public void showMonitor(Activity activity) {
-        EasyFloat.with(activity)
-                .setLayout(R.layout.layout_logcat_wrapper, view -> {
+    private Activity activity;
 
-                })
-                .setShowPattern(ShowPattern.FOREGROUND)
-                // 设置吸附方式，共15种模式，详情参考SidePattern
-                .setSidePattern(SidePattern.DEFAULT)
-                // 设置浮窗的标签，用于区分多个浮窗
-                .setTag("LogcatMonitor")
-                // 设置浮窗是否可拖拽
-                .setDragEnable(false)
-                // 浮窗是否包含EditText，默认不包含
-                .hasEditText(false)
-                // 设置浮窗固定坐标，ps：设置固定坐标，Gravity属性和offset属性将无效
-                .setLocation(100, 200)
-                // 设置浮窗的对齐方式和坐标偏移量
-                .setGravity(Gravity.TOP)
-                // 设置当布局大小变化后，整体view的位置对齐方式
-                .setLayoutChangedGravity(Gravity.START)
-                .show();
+    public Activity getActivity() {
+        return activity;
+    }
+
+    private View layoutView;
+    WindowManager.LayoutParams layoutParams;
+    WindowManager windowManager;
+
+    public void showMonitor(Activity activity) {
+        this.activity = activity;
+
+        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+        layoutParams = new WindowManager.LayoutParams();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
+        layoutParams.format = PixelFormat.RGBA_8888;//悬浮框背景颜色
+        layoutParams.gravity = Gravity.START | Gravity.TOP;
+
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;//悬浮框宽度
+        layoutParams.width = activity.getResources().getDisplayMetrics().heightPixels / 4 * 2;//悬浮框长度
+        layoutParams.height = activity.getResources().getDisplayMetrics().heightPixels / 4 * 2;//悬浮框长度
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;//悬浮框长度
+
+//        layoutParams.x = windowManager.getDefaultDisplay().getWidth();//初始显示位置
+        layoutParams.y = 100;//初始显示位置
+
+        layoutView = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.layout_logcat_wrapper, null);
+        layoutView.setBackgroundColor(activity.getResources().getColor(R.color.white));
+//        layoutView.setAlpha((float) 0.9);
+
+        windowManager.addView(layoutView, layoutParams);
     }
 
     public void hideMonitor() {
-        EasyFloat.hide("LogcatMonitor");
+        windowManager.removeView(layoutView);
     }
 
     public void showMonitor() {
-        EasyFloat.show("LogcatMonitor");
+        windowManager.addView(layoutView, layoutParams);
     }
 
     public void addInputStreamAction(IInputStreamAction inputStreamAction) {
