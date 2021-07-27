@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xiongmaozhijin.logcatlibrary.R;
 
@@ -42,7 +43,8 @@ public class AndroidLogcatManager {
 
     private boolean hadInit = false;
 
-    private String mLogcatTag = "*";
+    @Nullable
+    private String mLogcatTag[] = {};
     private String mLogcatLogLevel = "V";
     private String mLogcatSearchKeyword = ".*";
 
@@ -87,8 +89,12 @@ public class AndroidLogcatManager {
     }
 
     public void setmLogcatTag(String logcatTag) {
-        this.mLogcatTag = TextUtils.isEmpty(logcatTag) ? "*" : mLogcatTag;
-
+        logcatTag = logcatTag.trim();
+        if (TextUtils.isEmpty(logcatTag)) {
+            mLogcatTag = new String[]{};
+        } else {
+            mLogcatTag = logcatTag.split(" ");
+        }
     }
 
     public void setmLogcatLogLevel(String mLogcatLogLevel) {
@@ -100,10 +106,29 @@ public class AndroidLogcatManager {
     }
 
     private String createCommand() {
-        String filterTag = mLogcatTag + ":" + mLogcatLogLevel;
-        if (!"*".equals(mLogcatTag)) {
+        String filterTag;
+
+        if (mLogcatTag == null || mLogcatTag.length == 0) {
+            filterTag = "*:" + mLogcatLogLevel;
+
+        } else {
+            final StringBuilder tagBuilder = new StringBuilder();
+            for (int i = 0; i < mLogcatTag.length; i++) {
+                tagBuilder.append(mLogcatTag[i]);
+                tagBuilder.append(":");
+                tagBuilder.append(mLogcatLogLevel);
+                if (i != mLogcatTag.length - 1) {
+                    tagBuilder.append(" ");
+                }
+            }
+
+            filterTag = tagBuilder.toString();
+        }
+
+        if (mLogcatTag != null && mLogcatTag.length > 0) {
             filterTag = filterTag + " *:S";
         }
+
         final String regexSearch = "-e " + mLogcatSearchKeyword;
         final String command = "logcat -v threadtime -T 1000" + " " + filterTag + " " + " " + regexSearch;
         return command;

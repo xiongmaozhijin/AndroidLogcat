@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void log(String str) {
-        Log.v("HelloTag", str + "lalalala：" + new Random().nextInt());
-        Log.d("HelloTag", str + "lalalala：" + new Random().nextInt());
-        Log.i("HelloTag", str + "lalalala：" + new Random().nextInt());
-        Log.w("HelloTag", str + "lalalala：" + new Random().nextInt());
-        Log.e("HelloTag", str + "lalalala：" + new Random().nextInt());
+        Log.v("TAG1", str + "lalalala：" + new Random().nextInt());
+        Log.d("TAG1", str + "lalalala：" + new Random().nextInt());
+        Log.i("TAG1", str + "lalalala：" + new Random().nextInt());
+        Log.w("TAG2", str + "lalalala：" + new Random().nextInt());
+        Log.e("TAG2", str + "lalalala：" + new Random().nextInt());
 
     }
 }
