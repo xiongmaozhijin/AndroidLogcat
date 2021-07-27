@@ -1,14 +1,17 @@
 package com.xiongmaozhijin.androidlogcat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.xiongmaozhijin.logcatlibrary.logcat.AndroidLogcatManager;
 
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
         log("Main");
 
         findViewById(R.id.btnSecondActivity).setOnClickListener(v -> {
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 if (Settings.canDrawOverlays(this)) {
                     AndroidLogcatManager.getsInstance().init(getApplicationContext());
                     AndroidLogcatManager.getsInstance().showMonitor(this);
+                    AndroidLogcatManager.getsInstance().enableLocalStorage(getExternalCacheDir().getAbsolutePath());
                 }
             }
         }, 2_000L);

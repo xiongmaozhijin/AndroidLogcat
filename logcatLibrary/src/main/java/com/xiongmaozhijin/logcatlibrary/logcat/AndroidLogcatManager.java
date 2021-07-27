@@ -38,6 +38,8 @@ public class AndroidLogcatManager {
     private ReadInputStreamThread mReadInputStreamThread;
     private ReadErrorStreamThread mReadErrorStreamThread;
 
+    private final LocalStorageHelper mLocalStorageHelper = new LocalStorageHelper();
+
     private boolean hadInit = false;
 
     private String mLogcatTag = "*";
@@ -105,6 +107,10 @@ public class AndroidLogcatManager {
         final String regexSearch = "-e " + mLogcatSearchKeyword;
         final String command = "logcat -v threadtime -T 1000" + " " + filterTag + " " + " " + regexSearch;
         return command;
+    }
+
+    public void enableLocalStorage(String logDir) {
+        mLocalStorageHelper.enable(logDir);
     }
 
     public void updateCommand() {
