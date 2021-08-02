@@ -134,8 +134,10 @@ public class AndroidLogcatManager {
         return command;
     }
 
-    public void enableLocalStorage(String logDir) {
-        mLocalStorageHelper.enable(logDir);
+    public void enableLocalStorage(String logDir, String[] filterArray) {
+        mLocalStorageHelper.setmLogDir(logDir);
+        mLocalStorageHelper.setmFilterArray(filterArray);
+        mLocalStorageHelper.enable();
     }
 
     public void updateCommand() {
@@ -334,5 +336,9 @@ public class AndroidLogcatManager {
             }
         }
         return parseLine;
+    }
+
+    public void closeResource() {
+        mLocalStorageHelper.close();
     }
 }
