@@ -49,6 +49,7 @@ public class ILogcatManager {
 
     @NonNull
     private final Runnable mReadRunnable = () -> {
+        //noinspection LoopConditionNotUpdatedInsideLoop
         while (isLogcatEnable) {
             try {
                 String readLine = mInputQueues.take();
