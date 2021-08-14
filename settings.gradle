@@ -1,3 +1,4 @@
+include ':ilogcat'
 include ':logcatLibrary'
 include ':app'
 rootProject.name = "AndroidLogcat"

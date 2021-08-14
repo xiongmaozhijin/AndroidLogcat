@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 if (Settings.canDrawOverlays(this)) {
                     AndroidLogcatManager.getsInstance().init(getApplicationContext());
                     AndroidLogcatManager.getsInstance().showMonitor(this);
-                    AndroidLogcatManager.getsInstance().enableLocalStorage(getExternalCacheDir().getAbsolutePath());
+                    AndroidLogcatManager.getsInstance().enableLocalStorage(getExternalCacheDir().getAbsolutePath(), null);
                 }
             }
         }, 2_000L);
