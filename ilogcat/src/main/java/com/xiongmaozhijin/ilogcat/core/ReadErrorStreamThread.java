@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.BlockingQueue;
 
-class ReadErrorStreamThread extends Thread {
+public class ReadErrorStreamThread extends Thread {
 
     private final InputStream errorStream;
     private final BlockingQueue<String> inputQueue;

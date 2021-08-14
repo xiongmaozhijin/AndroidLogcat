@@ -22,9 +22,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.xiongmaozhijin.ilogcat.ILogcatManager;
 import com.xiongmaozhijin.ilogcat.R;
-import com.xiongmaozhijin.ilogcat.core.AndroidLogcatManager;
 import com.xiongmaozhijin.ilogcat.core.IInputStreamAction;
+import com.xiongmaozhijin.ilogcat.core.LogcatParseUtils;
 import com.xiongmaozhijin.ilogcat.core.LogcatUiItem;
 
 
@@ -97,7 +98,7 @@ public class LogcatMonitorLayout extends FrameLayout {
                 mLogLevel = position;
                 updateHeaderDetail();
                 final String[] logLevel = new String[]{"V", "D", "I", "W", "E", "A"};
-                AndroidLogcatManager.getsInstance().setmLogcatLogLevel(logLevel[position]);
+                ILogcatManager.getsInstance().setLogLevel(logLevel[position]);
                 updateCommand();
                 updateHeaderDetail();
             }
@@ -140,10 +141,10 @@ public class LogcatMonitorLayout extends FrameLayout {
         mInnerHandler = new InnerHandler(mLogcatItemAdapter);
         mInnerHandler.sendEmptyMessageDelayed(InnerHandler.MSG_UPDATE_RECY, RECY_UPDATE_DELAY);
 
-        AndroidLogcatManager.getsInstance().addInputStreamAction(new IInputStreamAction() {
+        ILogcatManager.getsInstance().addInputStreamAction(new IInputStreamAction() {
             @Override
             public void readLine(String line) {
-                final LogcatUiItem item = AndroidLogcatManager.getsInstance().parseLine(line);
+                final LogcatUiItem item = LogcatParseUtils.parseLine(line);
                 mLogcatItemAdapter.addItemWithoutNotify(item);
             }
         });
@@ -151,7 +152,7 @@ public class LogcatMonitorLayout extends FrameLayout {
 
     private void updateCommand() {
         mLogcatItemAdapter.clearData();
-        AndroidLogcatManager.getsInstance().updateCommand();
+        ILogcatManager.getsInstance().updateCommand();
     }
 
     @SuppressLint("SetTextI18n")
@@ -160,21 +161,21 @@ public class LogcatMonitorLayout extends FrameLayout {
         final String s1 = "日志：" + mLogLevelArrays[mLogLevel];
         final String s2 = RL + "型号：" + Build.MODEL + " " + Build.BRAND + " API:" + Build.VERSION.SDK_INT;
         final String s3 = RL + "包名：" + getContext().getPackageName();
-        final String s4 = RL + "搜索：" + AndroidLogcatManager.getsInstance().getCommand();
+        final String s4 = RL + "搜索：" + ILogcatManager.getsInstance().getCommand();
         txvHeaderDetail.setText(s1 + s2 + s3 + s4);
     }
 
     private void onSearchFilter() {
-        AndroidLogcatManager.getsInstance().hideMonitor();
-        final SearchSettingDialog dialog = new SearchSettingDialog(AndroidLogcatManager.getsInstance().getActivity());
+        ILogcatManager.getsInstance().getLogcatWindow().hide();
+        final SearchSettingDialog dialog = new SearchSettingDialog(ILogcatManager.getsInstance().getTopActivity());
         dialog.setmListener((searchTag, searchContent) -> {
-            AndroidLogcatManager.getsInstance().setmLogcatTag(searchTag);
-            AndroidLogcatManager.getsInstance().setmLogcatSearchKeyword(searchContent);
+            ILogcatManager.getsInstance().setLogcatTag(searchTag);
+            ILogcatManager.getsInstance().setKeyword(searchContent);
             updateCommand();
             updateHeaderDetail();
             dialog.dismiss();
         });
-        dialog.setOnDismissListener(dialog1 -> AndroidLogcatManager.getsInstance().showMonitor());
+        dialog.setOnDismissListener(dialog1 -> ILogcatManager.getsInstance().getLogcatWindow().show());
         dialog.show();
     }
 
