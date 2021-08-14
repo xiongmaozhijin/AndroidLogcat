@@ -11,7 +11,7 @@ public class LocalStorageHelper {
     private final BlockingQueue<String> mInputQueues = new LinkedBlockingQueue<>();
     private Process mProcess;
     private boolean running = true;
-    private LocalStorageIsAction mLocalStorageIsAction;
+    private LocalStorageStreamAction mLocalStorageStreamAction;
     private ICacheStrategy mICacheStrategy;
     private String mLogDir;
     private String[] mFilterArray;
@@ -19,12 +19,12 @@ public class LocalStorageHelper {
     public LocalStorageHelper() {
     }
 
-    public void setmLogDir(String mLogDir) {
-        this.mLogDir = mLogDir;
+    public void setLogDir(String logDir) {
+        this.mLogDir = logDir;
     }
 
-    public void setmFilterArray(String[] mFilterArray) {
-        this.mFilterArray = mFilterArray == null ? new String[]{} : mFilterArray;
+    public void setFilterArray(String[] tags) {
+        this.mFilterArray = tags == null ? new String[]{} : tags;
     }
 
     public void enable() {
@@ -32,7 +32,7 @@ public class LocalStorageHelper {
             throw new IllegalArgumentException("Must set logDir first");
         }
         mICacheStrategy = new LocalStorageCacheStrategy(mLogDir);
-        mLocalStorageIsAction = new LocalStorageIsAction(mLogDir);
+        mLocalStorageStreamAction = new LocalStorageStreamAction(mLogDir);
 
         final Runnable workRunnable = () -> {
             mICacheStrategy.checkCache();
@@ -50,7 +50,7 @@ public class LocalStorageHelper {
             while (running) {
                 try {
                     String readLine = mInputQueues.take();
-                    mLocalStorageIsAction.readLine(readLine);
+                    mLocalStorageStreamAction.readLine(readLine);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -116,8 +116,8 @@ public class LocalStorageHelper {
         } catch (Exception e) {
             // e.printStackTrace();
         }
-        if (mLocalStorageIsAction != null) {
-            mLocalStorageIsAction.close();
+        if (mLocalStorageStreamAction != null) {
+            mLocalStorageStreamAction.close();
         }
     }
 }

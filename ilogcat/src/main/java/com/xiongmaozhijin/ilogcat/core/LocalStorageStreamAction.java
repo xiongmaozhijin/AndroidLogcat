@@ -8,12 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-class LocalStorageIsAction implements IInputStreamAction {
+class LocalStorageStreamAction implements IInputStreamAction {
 
     private File logFile;
     private BufferedWriter bufferedWriter;
 
-    public LocalStorageIsAction(String logDir) {
+    public LocalStorageStreamAction(String logDir) {
         try {
             final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
             final String filename = sdf.format(new Date()) + "_logcat.txt";

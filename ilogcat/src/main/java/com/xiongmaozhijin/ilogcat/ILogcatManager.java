@@ -6,10 +6,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.xiongmaozhijin.ilogcat.core.IInputStreamAction;
 import com.xiongmaozhijin.ilogcat.core.LocalStorageHelper;
+import com.xiongmaozhijin.ilogcat.core.LogcatParam;
 import com.xiongmaozhijin.ilogcat.core.ReadErrorStreamThread;
 import com.xiongmaozhijin.ilogcat.core.ReadInputStreamThread;
 import com.xiongmaozhijin.ilogcat.ui.IWindowDialog;
@@ -34,8 +34,6 @@ public class ILogcatManager {
     private final Set<IInputStreamAction> mReadInputStreamListener = new HashSet<>();
 
     private Process mProcess;
-    private ReadInputStreamThread mReadInputStreamThread;
-    private ReadErrorStreamThread mReadErrorStreamThread;
 
     private final LocalStorageHelper mLocalStorageHelper = new LocalStorageHelper();
 
@@ -119,8 +117,8 @@ public class ILogcatManager {
 
 
     public void enableLocalStorage(String logDir, String[] filterArray) {
-        mLocalStorageHelper.setmLogDir(logDir);
-        mLocalStorageHelper.setmFilterArray(filterArray);
+        mLocalStorageHelper.setLogDir(logDir);
+        mLocalStorageHelper.setFilterArray(filterArray);
         mLocalStorageHelper.enable();
     }
 
@@ -134,8 +132,8 @@ public class ILogcatManager {
                 mProcess.destroy();
             }
             mProcess = Runtime.getRuntime().exec(mLogcatParam.createCommand());
-            mReadInputStreamThread = new ReadInputStreamThread(mProcess.getInputStream(), mInputQueues);
-            mReadErrorStreamThread = new ReadErrorStreamThread(mProcess.getErrorStream(), mInputQueues);
+            ReadInputStreamThread mReadInputStreamThread = new ReadInputStreamThread(mProcess.getInputStream(), mInputQueues);
+            ReadErrorStreamThread mReadErrorStreamThread = new ReadErrorStreamThread(mProcess.getErrorStream(), mInputQueues);
             mReadInputStreamThread.start();
             mReadErrorStreamThread.start();
 
@@ -151,48 +149,5 @@ public class ILogcatManager {
 
     public void closeResource() {
         mLocalStorageHelper.close();
-    }
-
-
-    public static final class LogcatParam {
-        /**
-         * 过滤tag数组
-         */
-        @Nullable
-        public String[] filterTags = {};
-        /**
-         * 日志等级
-         */
-        public String logLevel = "V";
-        /**
-         * 过滤字符，正则
-         */
-        public String filterKeyword = ".*";
-
-
-        private String createCommand() {
-            String concatTag;
-            if (filterTags == null || filterTags.length == 0) {
-                concatTag = "*:" + logLevel;
-            } else {
-                final StringBuilder tagBuilder = new StringBuilder();
-                for (int i = 0; i < filterTags.length; i++) {
-                    tagBuilder.append(filterTags[i]);
-                    tagBuilder.append(":");
-                    tagBuilder.append(logLevel);
-                    if (i != filterTags.length - 1) {
-                        tagBuilder.append(" ");
-                    }
-                }
-                concatTag = tagBuilder.toString();
-            }
-
-            if (filterTags != null && filterTags.length > 0) {
-                concatTag = concatTag + " *:S";
-            }
-
-            final String regexSearch = "-e " + filterKeyword;
-            return "logcat -v threadtime -T 1000" + " " + concatTag + " " + " " + regexSearch;
-        }
     }
 }
