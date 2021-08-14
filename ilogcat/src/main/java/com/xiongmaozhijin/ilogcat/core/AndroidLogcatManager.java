@@ -26,7 +26,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class AndroidLogcatManager {
 
     private final static AndroidLogcatManager sInstance = new AndroidLogcatManager();
-
     private Context context;
     private final boolean isLogcatEnable = true;
 
