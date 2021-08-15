@@ -20,7 +20,7 @@ https://github.com/xiongmaozhijin/AndroidLogcat
 	}
 
 	dependencies {
-	        implementation 'com.github.xiongmaozhijin:AndroidLogcat:2.0.0.1'
+	        implementation 'com.github.xiongmaozhijin:AndroidLogcat:lastversion'
 	}
 ```
 
