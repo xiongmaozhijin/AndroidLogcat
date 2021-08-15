@@ -5,25 +5,29 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.xiongmaozhijin.logcatlibrary.logcat.AndroidLogcatManager;
+import com.xiongmaozhijin.ilogcat.ILogcatManager;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        ILogcatManager.getsInstance().init(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
@@ -46,9 +50,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnSecondActivity).postDelayed(() -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Settings.canDrawOverlays(this)) {
-                    AndroidLogcatManager.getsInstance().init(getApplicationContext());
-                    AndroidLogcatManager.getsInstance().showMonitor(this);
-                    AndroidLogcatManager.getsInstance().enableLocalStorage(getExternalCacheDir().getAbsolutePath(), null);
                 }
             }
         }, 2_000L);
@@ -60,12 +61,33 @@ public class MainActivity extends AppCompatActivity {
         log("---------->");
     }
 
+    public void btnShowLogWindow(View view) {
+        Log.d(TAG, "btnShowLogWindow()");
+        ILogcatManager.getsInstance().getLogcatWindow().show();
+    }
+
+    public void btnLocalStorage(View view) {
+        Log.d(TAG, "btnLocalStorage()");
+        ILogcatManager.getsInstance().enableLocalStorage();
+    }
+
+
+    public void btnCrash(View view) {
+        Log.d(TAG, "btnCrash()");
+        throw new RuntimeException("IO error: " + System.currentTimeMillis());
+    }
+
+    public void btnAddLog(View view) {
+        Log.d(TAG, "btnAddLog()");
+        Log.d("SpeedMonitor", "this is log to debug-" + System.currentTimeMillis());
+    }
+
     private void log(String str) {
-        Log.v("TAG1", str + "lalalala：" + new Random().nextInt());
-        Log.d("TAG1", str + "lalalala：" + new Random().nextInt());
-        Log.i("TAG1", str + "lalalala：" + new Random().nextInt());
-        Log.w("TAG2", str + "lalalala：" + new Random().nextInt());
-        Log.e("TAG2", str + "lalalala：" + new Random().nextInt());
+        Log.v("Okhttp", str + "lalalala：" + new Random().nextInt());
+        Log.d("Okhttp", str + "lalalala：" + new Random().nextInt());
+        Log.i("EventBus", str + "lalalalaBus：" + new Random().nextInt());
+        Log.w("EventBus", str + "lalalalaEBus：" + new Random().nextInt());
+        Log.e("MainActivityDebug", str + "lalalala：" + new Random().nextInt());
 
     }
 }

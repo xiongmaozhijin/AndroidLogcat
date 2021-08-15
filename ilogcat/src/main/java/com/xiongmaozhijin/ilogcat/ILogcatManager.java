@@ -25,7 +25,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ILogcatManager {
 
     private final static ILogcatManager sInstance = new ILogcatManager();
-    private Context context;
+    private Context mContext;
     private final boolean isLogcatEnable = true;
 
     @NonNull
@@ -35,13 +35,13 @@ public class ILogcatManager {
 
     private Process mProcess;
 
-    private final LocalStorageHelper mLocalStorageHelper = new LocalStorageHelper();
+    private LocalStorageHelper mLocalStorageHelper;
 
-    private boolean hadInit = false;
+    private boolean mHadInit = false;
 
-    private final LogcatParam mLogcatParam = new LogcatParam();
+    private LogcatParam mLogcatParam;
 
-    private IWindowDialog mIWindowDialog = new SimpleWindowDialog();
+    private IWindowDialog mIWindowDialog;
 
     private Activity mTopActivity;
 
@@ -68,11 +68,14 @@ public class ILogcatManager {
     }
 
     public synchronized void init(Context context) {
-        if (hadInit) return;
-        hadInit = true;
-        this.context = context;
-        new Thread(mReadRunnable).start();
+        if (mHadInit) return;
+        mHadInit = true;
+        mContext = context;
+        mLogcatParam = new LogcatParam(context);
+        mLocalStorageHelper = new LocalStorageHelper(context);
+        mIWindowDialog = new SimpleWindowDialog(context);
         initActivityCallback(context);
+        new Thread(mReadRunnable).start();
         execLogcatCommand();
     }
 
@@ -116,10 +119,12 @@ public class ILogcatManager {
     }
 
 
-    public void enableLocalStorage(String logDir, String[] filterArray) {
-        mLocalStorageHelper.setLogDir(logDir);
-        mLocalStorageHelper.setFilterArray(filterArray);
+    public void enableLocalStorage() {
         mLocalStorageHelper.enable();
+    }
+
+    public LogcatParam getLocalStorageParam() {
+        return mLocalStorageHelper.getLogcatParam();
     }
 
     public void updateCommand() {

@@ -1,5 +1,7 @@
 package com.xiongmaozhijin.ilogcat.core;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import java.util.concurrent.BlockingQueue;
@@ -13,26 +15,25 @@ public class LocalStorageHelper {
     private boolean running = true;
     private LocalStorageStreamAction mLocalStorageStreamAction;
     private ICacheStrategy mICacheStrategy;
-    private String mLogDir;
-    private String[] mFilterArray;
+    private final LogcatParam mLogcatParam;
+    private boolean mHadEnable = false;
 
-    public LocalStorageHelper() {
+    public LocalStorageHelper(Context context) {
+        mLogcatParam = new LogcatParam(context);
     }
 
-    public void setLogDir(String logDir) {
-        this.mLogDir = logDir;
+    public LogcatParam getLogcatParam() {
+        return mLogcatParam;
     }
 
-    public void setFilterArray(String[] tags) {
-        this.mFilterArray = tags == null ? new String[]{} : tags;
-    }
-
-    public void enable() {
-        if (mLogDir == null) {
+    public synchronized void enable() {
+        if (mLogcatParam.logStorageDir == null) {
             throw new IllegalArgumentException("Must set logDir first");
         }
-        mICacheStrategy = new LocalStorageCacheStrategy(mLogDir);
-        mLocalStorageStreamAction = new LocalStorageStreamAction(mLogDir);
+        if (mHadEnable) return;
+        mHadEnable = true;
+        mICacheStrategy = new LocalStorageCacheStrategy(mLogcatParam.logStorageDir);
+        mLocalStorageStreamAction = new LocalStorageStreamAction(mLogcatParam.logStorageDir);
 
         final Runnable workRunnable = () -> {
             mICacheStrategy.checkCache();
@@ -66,8 +67,7 @@ public class LocalStorageHelper {
             if (mProcess != null) {
                 mProcess.destroy();
             }
-            final String command = createCommand();
-
+            final String command = mLogcatParam.createCommand2();
             mInputQueues.offer(command);
             mProcess = Runtime.getRuntime().exec(command);
             ReadInputStreamThread readInputStreamThread = new ReadInputStreamThread(mProcess.getInputStream(), mInputQueues);
@@ -77,34 +77,6 @@ public class LocalStorageHelper {
         } catch (Exception e) {
             // e.printStackTrace();
         }
-    }
-
-    private String createCommand() {
-        String filterTag;
-
-        final String logLevel = "V";
-        if (mFilterArray == null || mFilterArray.length == 0) {
-            filterTag = "*:" + logLevel;
-
-        } else {
-            final StringBuilder tagBuilder = new StringBuilder();
-            for (int i = 0; i < mFilterArray.length; i++) {
-                tagBuilder.append(mFilterArray[i]);
-                tagBuilder.append(":");
-                tagBuilder.append(logLevel);
-                if (i != mFilterArray.length - 1) {
-                    tagBuilder.append(" ");
-                }
-            }
-
-            filterTag = tagBuilder.toString();
-        }
-
-        if (mFilterArray != null && mFilterArray.length > 0) {
-            filterTag = filterTag + " *:S";
-        }
-
-        return "logcat -v threadtime" + " " + filterTag;
     }
 
     public void close() {

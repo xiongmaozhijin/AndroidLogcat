@@ -37,7 +37,7 @@ public class LocalStorageCacheStrategy implements ICacheStrategy {
                             if (i != -1) {
                                 final String date = file.getName().substring(0, i);
                                 long time = sdf.parse(date).getTime();
-                                if (time < Calendar.getInstance().getTimeInMillis() - 2 * 24 * 60 * 60 * 1000L) {
+                                if (time < Calendar.getInstance().getTimeInMillis() - 10 * 24 * 60 * 60 * 1000L) {
                                     boolean delete = file.delete();
                                 }
                             }

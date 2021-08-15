@@ -15,9 +15,14 @@ public class SimpleWindowDialog implements IWindowDialog {
     private View layoutView;
     private WindowManager.LayoutParams layoutParams;
     private WindowManager windowManager;
+    private boolean hadCreate = false;
+    private final Context context;
 
-    @Override
-    public void create(Context context, int layoutId) {
+    public SimpleWindowDialog(Context context) {
+        this.context = context;
+    }
+
+    private void create(Context context, int layoutId) {
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -36,10 +41,14 @@ public class SimpleWindowDialog implements IWindowDialog {
         layoutView = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.layout_logcat_wrapper, null);
         layoutView.setBackgroundColor(context.getResources().getColor(R.color.white));
         // layoutView.setAlpha((float) 0.9);
+        hadCreate = true;
     }
 
     @Override
     public void show() {
+        if (!hadCreate) {
+            create(context, R.layout.layout_logcat_wrapper);
+        }
         if (layoutView.getParent() == null) windowManager.addView(layoutView, layoutParams);
     }
 

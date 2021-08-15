@@ -7,6 +7,39 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
+    <Button
+        android:id="@+id/btnShowLogWindow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnShowLogWindow"
+        android:text="LogcatUi"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnLocalStorage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnLocalStorage"
+        android:text="local storage"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnCrash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cause crash"
+        android:onClick="btnCrash"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnAddLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add log"
+        android:onClick="btnAddLog"
+        android:textAllCaps="false" />
+
     <Button
         android:id="@+id/btnSecondActivity"
         android:layout_width="wrap_content"

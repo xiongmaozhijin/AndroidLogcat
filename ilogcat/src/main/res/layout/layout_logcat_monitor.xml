@@ -171,7 +171,7 @@
             android:layout_height="1dp"
             android:background="#b4b4b4" />
 
-        <com.xiongmaozhijin.logcatlibrary.ui.LogcatRecycleView
+        <com.xiongmaozhijin.ilogcat.ui.LogcatRecycleView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -4,7 +4,7 @@
     android:layout_height="500dp"
     android:orientation="vertical">
 
-    <com.xiongmaozhijin.logcatlibrary.ui.LogcatMonitorLayout
+    <com.xiongmaozhijin.ilogcat.ui.LogcatMonitorLayout
         android:id="@+id/logcatMonitorLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
