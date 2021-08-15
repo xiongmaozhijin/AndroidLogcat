@@ -109,7 +109,7 @@ public class ILogcatManager {
     }
 
     public void setLogcatTag(String... tag) {
-        mLogcatParam.filterTags = new ArrayList<>(Arrays.asList(tag));
+        mLogcatParam.setLogTags(tag);
     }
 
     public void setLogLevel(String logLevel) {

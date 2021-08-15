@@ -5,31 +5,47 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class LogcatParam {
 
     private final List<String> mDefaultTags = new ArrayList<>();
+
     /**
      * 过滤tag数组
      */
     @Nullable
-    public List<String> filterTags = new ArrayList<>();
+    private List<String> filterTags = new ArrayList<>();
+
     /**
      * 日志等级
      */
     public String logLevel = "V";
+
     /**
      * 过滤字符，正则
      */
     public String filterKeyword = ".*";
 
+    /**
+     * log保存的文件夹
+     */
     public String logStorageDir;
 
     public LogcatParam(Context context) {
         logStorageDir = Objects.requireNonNull(context.getExternalCacheDir()).getAbsolutePath();
         mDefaultTags.add("AndroidRuntime");
+    }
+
+    /**
+     * 要过滤的tag，传null则不过滤
+     *
+     * @param tags ...
+     */
+    public void setLogTags(String... tags) {
+        filterTags = new ArrayList<>(Arrays.asList(tags));
     }
 
     public String createCommand() {

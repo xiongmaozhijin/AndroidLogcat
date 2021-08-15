@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.xiongmaozhijin.ilogcat.ILogcatManager;
+import com.xiongmaozhijin.ilogcat.core.LogcatParam;
+import com.xiongmaozhijin.ilogcat.ui.SimpleWindowDialog;
 
 import java.util.Random;
 
@@ -59,6 +61,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         log("---------->");
+    }
+
+    private void settings() {
+        LogcatParam localStorageParam = ILogcatManager.getsInstance().getLocalStorageParam();
+        localStorageParam.setLogTags("MonitorTag1", "MonitorTag2"); // 要过滤的tag，传null则不过滤
+        localStorageParam.logLevel = "D"; // logcat loglevel
+        localStorageParam.logStorageDir = getApplicationContext().getExternalCacheDir().getAbsolutePath(); // log保存的文件夹
+        ILogcatManager.getsInstance().enableLocalStorage(); // 开启记录
+    }
+
+    private void settings2() {
+        ILogcatManager.getsInstance().setLogcatTag("UiMonitorTag1", "UiMonitorTag2"); // ui界面过滤的logtag
+        ILogcatManager.getsInstance().setKeyword("keyword"); // 要过滤的keyword
+        ILogcatManager.getsInstance().setLogLevel("V"); // logcat loglevel
+        ILogcatManager.getsInstance().setWindowDialog(new SimpleWindowDialog(getApplicationContext())); // 实现自己的显示悬浮框
+        ILogcatManager.getsInstance().getLogcatWindow().show(); // 显示
     }
 
     public void btnShowLogWindow(View view) {
