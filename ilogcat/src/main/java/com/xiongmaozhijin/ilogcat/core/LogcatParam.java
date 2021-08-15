@@ -1,17 +1,21 @@
 package com.xiongmaozhijin.ilogcat.core;
 
 import android.content.Context;
-import android.os.Environment;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class LogcatParam {
 
+    private final List<String> mDefaultTags = new ArrayList<>();
     /**
      * 过滤tag数组
      */
     @Nullable
-    public String[] filterTags = {};
+    public List<String> filterTags = new ArrayList<>();
     /**
      * 日志等级
      */
@@ -24,27 +28,28 @@ public class LogcatParam {
     public String logStorageDir;
 
     public LogcatParam(Context context) {
-        logStorageDir = context.getCacheDir().getAbsolutePath();
+        logStorageDir = Objects.requireNonNull(context.getExternalCacheDir()).getAbsolutePath();
+        mDefaultTags.add("AndroidRuntime");
     }
 
     public String createCommand() {
         String concatTag;
-        if (filterTags == null || filterTags.length == 0) {
+        if (filterTags == null || filterTags.size() == 0) {
             concatTag = "*:" + logLevel;
         } else {
             final StringBuilder tagBuilder = new StringBuilder();
-            for (int i = 0; i < filterTags.length; i++) {
-                tagBuilder.append(filterTags[i]);
+            for (int i = 0; i < filterTags.size(); i++) {
+                tagBuilder.append(filterTags.get(i));
                 tagBuilder.append(":");
                 tagBuilder.append(logLevel);
-                if (i != filterTags.length - 1) {
+                if (i != filterTags.size() - 1) {
                     tagBuilder.append(" ");
                 }
             }
             concatTag = tagBuilder.toString();
         }
 
-        if (filterTags != null && filterTags.length > 0) {
+        if (filterTags != null && filterTags.size() > 0) {
             concatTag = concatTag + " *:S";
         }
 
@@ -56,23 +61,24 @@ public class LogcatParam {
     public String createCommand2() {
         String cmdTag;
         final String logLevel = "V";
-        if (filterTags == null || filterTags.length == 0) {
+        if (filterTags == null || filterTags.size() == 0) {
             cmdTag = "*:" + logLevel;
         } else {
             final StringBuilder tagBuilder = new StringBuilder();
-            for (int i = 0; i < filterTags.length; i++) {
-                tagBuilder.append(filterTags[i]);
+            filterTags.addAll(mDefaultTags);
+            for (int i = 0; i < filterTags.size(); i++) {
+                tagBuilder.append(filterTags.get(i));
                 tagBuilder.append(":");
                 tagBuilder.append(logLevel);
-                if (i != filterTags.length - 1) {
+                if (i != filterTags.size() - 1) {
                     tagBuilder.append(" ");
                 }
             }
             cmdTag = tagBuilder.toString();
         }
-        if (filterTags != null && filterTags.length > 0) {
+        if (filterTags != null && filterTags.size() > 0) {
             cmdTag = cmdTag + " *:S";
         }
-        return "logcat -v threadtime" + " " + cmdTag;
+        return "logcat -v -T 500 threadtime" + " " + cmdTag;
     }
 }

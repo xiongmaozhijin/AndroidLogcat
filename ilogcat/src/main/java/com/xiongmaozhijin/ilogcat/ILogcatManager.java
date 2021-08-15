@@ -17,6 +17,8 @@ import com.xiongmaozhijin.ilogcat.ui.SimpleActivityLifecycleCallbacks;
 import com.xiongmaozhijin.ilogcat.ui.SimpleWindowDialog;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -107,7 +109,7 @@ public class ILogcatManager {
     }
 
     public void setLogcatTag(String... tag) {
-        mLogcatParam.filterTags = tag;
+        mLogcatParam.filterTags = new ArrayList<>(Arrays.asList(tag));
     }
 
     public void setLogLevel(String logLevel) {

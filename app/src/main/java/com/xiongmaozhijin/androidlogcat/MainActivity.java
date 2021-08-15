@@ -80,11 +80,12 @@ public class MainActivity extends AppCompatActivity {
     public void btnAddLog(View view) {
         Log.d(TAG, "btnAddLog()");
         Log.d("SpeedMonitor", "this is log to debug-" + System.currentTimeMillis());
+        Log.d("SpeedMonitor", "速度监控：this is log to debug-" + System.currentTimeMillis());
     }
 
     private void log(String str) {
-        Log.v("Okhttp", str + "lalalala：" + new Random().nextInt());
-        Log.d("Okhttp", str + "lalalala：" + new Random().nextInt());
+        Log.v("Okhttp", str + "Socket 链接测试：" + new Random().nextInt());
+        Log.d("Okhttp", str + "connect http log：" + new Random().nextInt());
         Log.i("EventBus", str + "lalalalaBus：" + new Random().nextInt());
         Log.w("EventBus", str + "lalalalaEBus：" + new Random().nextInt());
         Log.e("MainActivityDebug", str + "lalalala：" + new Random().nextInt());

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.util.concurrent.BlockingQueue;
 
 public class ReadInputStreamThread extends Thread {
@@ -24,7 +25,11 @@ public class ReadInputStreamThread extends Thread {
             while ((readLine = bufReader.readLine()) != null) {
                 inputQueue.put(readLine);
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            // e.printStackTrace();
+        } catch (InterruptedIOException e) {
+            // e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
