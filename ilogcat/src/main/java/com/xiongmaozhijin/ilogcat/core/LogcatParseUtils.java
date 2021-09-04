@@ -1,5 +1,7 @@
 package com.xiongmaozhijin.ilogcat.core;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
@@ -7,8 +9,10 @@ import java.util.Locale;
 
 public class LogcatParseUtils {
 
-    private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);
-    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.US);
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.getDefault());
     private static SimpleDateFormat rightSdf = null;
 
     public static LogcatUiItem parseLine(@NonNull final String line) {
